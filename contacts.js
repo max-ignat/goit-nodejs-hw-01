@@ -1,13 +1,22 @@
 const fs = require("fs/promises");
 const path = require("path");
-// const { nanoid } =  import("nanoid");
 const { v4: uuidv4 } = require("uuid");
 
 
 const contactsPath = path.join(__dirname, "/db/contacts.json");
 
-const updateContacts = async (contact) => {
-  await fs.writeFile(contactsPath, JSON.stringify(contact, null, 2));
+const updateContacts = async (id,data) => {
+  // await fs.writeFile(contactsPath, JSON.stringify(contact, null, 2));
+
+
+  const contacts = await listContacts();
+    const index = contacts.findIndex(item => item.id === id);
+    if(index === -1){
+        return null;
+    }
+    contacts[index] = {id, ...data};
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    return contacts[index];
 };
 
 const listContacts = async () => {
@@ -50,4 +59,5 @@ module.exports = {
   getContactById,
   removeContact,
   addContact,
+  updateContacts,
 };

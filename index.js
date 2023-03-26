@@ -17,19 +17,23 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case "list":
       const allContacts = await contacts.listContacts();
-      console.log(allContacts);
+      console.table(allContacts);
       break;
     case "get":
       const contact = await contacts.getContactById(id);
-      console.log(contact);
+      console.table(contact);
       break;
     case "add":
       const newContact = await contacts.addContact(name, email, phone);
-      console.log(newContact);
+      console.table(newContact);
       break;
+    case "update":
+      const updateContact = await contacts.updateContacts(id ,{name, email, phone})
+      console.table(updateContact);
+      break
     case "remove":
       const removeContact = await contacts.removeContact(id);
-      console.log(removeContact);
+      console.table(removeContact);
       break;
     default:
       console.warn("\x1B[31m Unknown action type!");
@@ -39,7 +43,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 invokeAction(argv);
 
 // invokeAction({action: "list"})
-// invokeAction({action: "readById", id: "drsAJ4SHPYqZeG-83QTVW"});
-// invokeAction({action: "add", name: "Sam Fisher", phone: '123-456-123'})
-// invokeAction({action: "updateById", id: "cc560b04-c688-4e25-958d-8be80cef8f52",  "name": "Sam_Fisher", "phone": "(748) 000-0000"})
-// invokeAction({action: "deleteById", id: "6b934506-a3a1-4074-949d-c60aca0fd69b"})
+// invokeAction({action: "get", id: "drsAJ4SHPYqZeG-83QTVW"});
+// invokeAction({action: "add", name: "Sam Fisher", phone: '123-456-123', email: "fisher@mail.com"})
+// invokeAction({action: "update", id: "9c855004-031e-4eef-9213-ba0d2e240823",  "name": "Bob Fisher", "phone": "(123) 999-1111", email: "fisher@mail.com"})
+// invokeAction({action: "remove", id: "9c855004-031e-4eef-9213-ba0d2e240823"})
